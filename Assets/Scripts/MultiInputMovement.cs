@@ -45,7 +45,7 @@ public class MultiInputMovement : MonoBehaviour {
 	void ResolveInput() {
 		if (Network.isServer) {
 			Debug.Log("Resolving movement: " + CurrentAction);
-			CurrentAction = lastInput[0];
+			CurrentAction = lastInput[1];
 		}
 	}
 }
