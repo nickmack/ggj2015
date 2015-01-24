@@ -63,7 +63,7 @@ public class PlayerScript : MonoBehaviour {
 			//TODO improve this like before
             Debug.Log ("Client Intention changed from: " + lastClientInput + " to " + desiredAction);
             lastClientInput = desiredAction;
-            networkView.RPC("SendMovementInput", RPCMode.Server, Network.player, desiredAction);
+            networkView.RPC("SendMovementInput", RPCMode.Server, Network.player, (int) desiredAction);
         }
 
         
