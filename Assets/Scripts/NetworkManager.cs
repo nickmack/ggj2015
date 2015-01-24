@@ -61,19 +61,31 @@ public class NetworkManager : MonoBehaviour {
     }
 
 	void OnDisconnectedFromServer(NetworkDisconnection info) {
-		Debug.Log ("DISCONECTED");
+		Debug.Log ("DISCONNECTED");
 		if (Network.isServer)
-			Debug.Log ("Local server connection disconnected");
-		else {
+        {
+            Debug.Log("Local server connection disconnected");
+        }
+		else
+        {
 			if (info == NetworkDisconnection.LostConnection)
+            {
 				Debug.Log ("Lost connection to the server");
-			else 
+            } 
+            else 
+            {
 				Debug.Log ("Successfully diconnected from the server");
-
-			GameObject.Destroy (GameObject.Find ("SquarePref"));
-			Network.Destroy (GameObject.Find ("SquarePref"));
+            }
 		}
+        Debug.Log("Resetting the scene the easy way.");
+        Application.LoadLevel(Application.loadedLevel); 
 	}
+
+    void OnPlayerDisconnected(NetworkPlayer player) {
+        Debug.Log("Clean up after player " + player);
+        Network.RemoveRPCs(player);
+        Network.DestroyPlayerObjects(player);
+    }
 
     void OnMasterServerEvent(MasterServerEvent msEvent)
     {
