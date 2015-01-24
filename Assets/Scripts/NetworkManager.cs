@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class NetworkManager : MonoBehaviour {
+   
+    #region Private attributes
 
     private const string typeName = "GGJ2015";
     private const string gameName = "mansion";
@@ -10,39 +12,26 @@ public class NetworkManager : MonoBehaviour {
 
     private const int PORT = 22222;
 
+    #endregion
 
-    private void StartServer()
-    {
-        Network.InitializeServer(4, PORT, !Network.HavePublicAddress());
-        MasterServer.RegisterHost(typeName, gameName);
-    }
+    #region Public attributes
+
+    public GameObject playerPrefab;
+
+    #endregion
+
 
     void OnServerInitialized()
     {
         Debug.Log("Server Initializied");
+        SpawnPlayer();
     }
 
-    private void JoinServer(HostData hostData)
+    private void SpawnPlayer()
     {
-        Network.Connect(hostData);
+        Network.Instantiate(playerPrefab, new Vector2(0f, 0f), Quaternion.identity, 0);
     }
 
-    void OnConnectedToServer()
-    {
-        Debug.Log("Server Joined");
-    }
-
-
-    private void RefreshHostList()
-    {
-        MasterServer.RequestHostList(typeName);
-    }
-
-    void OnMasterServerEvent(MasterServerEvent msEvent)
-    {
-        if (msEvent == MasterServerEvent.HostListReceived)
-            hostList = MasterServer.PollHostList();
-    }
 
     void OnGUI()
     {
@@ -63,6 +52,36 @@ public class NetworkManager : MonoBehaviour {
                 }
             }
         }
+    }
+
+
+    void OnConnectedToServer()
+    {
+        Debug.Log("Server Joined");
+    }
+
+
+    void OnMasterServerEvent(MasterServerEvent msEvent)
+    {
+        if (msEvent == MasterServerEvent.HostListReceived)
+            hostList = MasterServer.PollHostList();
+    }
+
+
+    private void RefreshHostList()
+    {
+        MasterServer.RequestHostList(typeName);
+    }
+
+    private void JoinServer(HostData hostData)
+    {
+        Network.Connect(hostData);
+    }
+
+    private void StartServer()
+    {
+        Network.InitializeServer(4, PORT, !Network.HavePublicAddress());
+        MasterServer.RegisterHost(typeName, gameName);
     }
 
 }
