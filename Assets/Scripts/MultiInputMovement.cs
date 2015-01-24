@@ -32,13 +32,13 @@ public class MultiInputMovement : MonoBehaviour {
 	[RPC]
 	void SendMovementInput(NetworkPlayer player, InputAction input)
 	{ 
+		Debug.Log ("Player " + player.ToString() + " move: " + input);
 		lastInput [int.Parse(player.ToString())] = input;
 	}
 
 	// Aqui é o carai de como vai mover
 	void ResolveInput() {
-		Debug.Log("Resolve antes: " + currentAction);
-		currentAction = InputAction.NoAction;
-		Debug.Log("Resolve depois: " + currentAction);
+		Debug.Log("Resolving movement: " + currentAction);
+		currentAction = lastInput[0];
 	}
 }
