@@ -24,22 +24,28 @@ public class MultiInputMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (resolveInput.IsTriggered) {
-			ResolveInput();
+		if (Network.isServer) {
+			if (resolveInput.IsTriggered) {
+					ResolveInput ();
+			}
 		}
 	}
 
 	[RPC]
 	void SendMovementInput(NetworkPlayer player, int input)
 	{ 
-		InputAction inputAction = (InputAction)input;
-		Debug.Log ("Player " + player.ToString() + " move: " + inputAction);
-		lastInput [int.Parse(player.ToString())] = inputAction;
+		if (Network.isServer) {
+			InputAction inputAction = (InputAction)input;
+			Debug.Log ("Player " + player.ToString () + " move: " + inputAction);
+			lastInput [int.Parse (player.ToString ())] = inputAction;
+		}
 	}
 
 	// Aqui é o carai de como vai mover
 	void ResolveInput() {
-		Debug.Log("Resolving movement: " + CurrentAction);
-		CurrentAction = lastInput[0];
+		if (Network.isServer) {
+			Debug.Log("Resolving movement: " + CurrentAction);
+			CurrentAction = lastInput[0];
+		}
 	}
 }
