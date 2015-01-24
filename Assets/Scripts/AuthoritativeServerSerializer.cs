@@ -18,7 +18,7 @@ public class AuthoritativeServerSerializer : MonoBehaviour {
 		Vector3 syncPosition = Vector3.zero;
 		if (stream.isWriting)
 		{
-			syncPosition = rigidbody2D.position;
+			syncPosition = transform.position;
 			stream.Serialize(ref syncPosition);
 		}
 		else
