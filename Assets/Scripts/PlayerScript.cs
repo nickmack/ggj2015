@@ -13,10 +13,10 @@ public class PlayerScript : MonoBehaviour {
     void InputMovement()
     {
         if (Input.GetKey(KeyCode.W))
-            rigidbody2D.MovePosition(rigidbody2D.position - Vector2.up * speed * Time.deltaTime);
+            rigidbody2D.MovePosition(rigidbody2D.position + Vector2.up * speed * Time.deltaTime);
 
         if (Input.GetKey(KeyCode.S))
-            rigidbody2D.MovePosition(rigidbody2D.position + Vector2.up * speed * Time.deltaTime);
+            rigidbody2D.MovePosition(rigidbody2D.position - Vector2.up * speed * Time.deltaTime);
 
         if (Input.GetKey(KeyCode.D))
             rigidbody2D.MovePosition(rigidbody2D.position + Vector2.right * speed * Time.deltaTime);
