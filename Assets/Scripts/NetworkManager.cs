@@ -25,7 +25,8 @@ public class NetworkManager : MonoBehaviour {
     void OnServerInitialized()
     {
         Debug.Log("Server Initializied");
-		SpawnPlayer(SpawnDirector());
+		GameObject director = SpawnDirector();
+		SpawnPlayer(director);
     }
 
 	private GameObject SpawnDirector()
