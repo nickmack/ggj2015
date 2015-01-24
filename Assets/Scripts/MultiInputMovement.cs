@@ -44,13 +44,13 @@ public class MultiInputMovement : MonoBehaviour {
 	// Aqui é o carai de como vai mover
 	void ResolveInput() {
 		if (Network.isServer) {
-			Debug.Log("Resolving action");
-
+			Debug.Log("Resolving action: " + lastInput[0] + lastInput[1] + lastInput[2]);
 			if (lastInput[0] == lastInput[1] && lastInput[1] == lastInput[2]) {
 				CurrentAction = lastInput[0];
 			} else {
 				CurrentAction = InputAction.NoAction;
 			}
+			Debug.Log("Resulting action: " + CurrentAction);
 		}
 	}
 }
