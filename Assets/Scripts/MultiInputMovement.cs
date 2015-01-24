@@ -5,15 +5,15 @@ public class MultiInputMovement : MonoBehaviour {
 
 	private InputAction[] lastInput;
 	private Every resolveInput;
-	public InputAction currentAction;
+	public InputAction CurrentAction;
 
 	// Use this for initialization
 	void Awake () 
 	{
 		Debug.Log ("AWAKE DO SCRIPT");
 		lastInput = new InputAction[]{InputAction.NoAction, InputAction.NoAction, InputAction.NoAction};
-		currentAction = InputAction.NoAction;
-		Debug.Log ("currentAction inicial" + currentAction);
+		CurrentAction = InputAction.NoAction;
+		Debug.Log ("currentAction inicial" + CurrentAction);
 
 		// Resolve the input every 10seconds
 		resolveInput = new Every (0.1f);
@@ -38,7 +38,7 @@ public class MultiInputMovement : MonoBehaviour {
 
 	// Aqui é o carai de como vai mover
 	void ResolveInput() {
-		Debug.Log("Resolving movement: " + currentAction);
-		currentAction = lastInput[0];
+		Debug.Log("Resolving movement: " + CurrentAction);
+		CurrentAction = lastInput[0];
 	}
 }

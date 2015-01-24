@@ -171,4 +171,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 131418, guid: 987dec538e294e647ac80a8793604020, type: 2}
-  directorPrefab: {fileID: 146430, guid: 27e5c3050d9064e3285cfeae7a2e867a, type: 2}

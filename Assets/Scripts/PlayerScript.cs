@@ -13,8 +13,6 @@ public class PlayerScript : MonoBehaviour {
 	private Every checkInput;
 	private float checkInputInterval = 0.2f;
 
-	public GameObject director;
-
 	void Start()
 	{
 		checkInput = new Every (checkInputInterval);
@@ -76,7 +74,7 @@ public class PlayerScript : MonoBehaviour {
 		//Server movement code
         if(Network.isServer){
 
-			InputAction currentAction = director.GetComponent<MultiInputMovement>().currentAction;
+			InputAction currentAction = this.gameObject.GetComponent<MultiInputMovement>().CurrentAction;
 			Debug.Log ("Server moving player: " + currentAction);
 
 			switch (currentAction) 

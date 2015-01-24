@@ -13,6 +13,7 @@ GameObject:
   - 114: {fileID: 11488748}
   - 148: {fileID: 14897050}
   - 114: {fileID: 11429152}
+  - 114: {fileID: 11459012}
   m_Layer: 0
   m_Name: SquarePref
   m_TagString: Untagged
@@ -58,6 +59,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d88deb67da9e649da8ccd3ef81bbd9a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11459012
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6f89e61cf554615af33a5e8fbd2d8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentAction: 5
 --- !u!114 &11488748
 MonoBehaviour:
   m_ObjectHideFlags: 1

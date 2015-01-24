@@ -17,7 +17,6 @@ public class NetworkManager : MonoBehaviour {
     #region Public attributes
 
     public GameObject playerPrefab;
-	public GameObject directorPrefab;
 
     #endregion
 
@@ -25,19 +24,12 @@ public class NetworkManager : MonoBehaviour {
     void OnServerInitialized()
     {
         Debug.Log("Server Initializied");
-		GameObject director = SpawnDirector();
-		SpawnPlayer(director);
+		SpawnPlayer();
     }
 
-	private GameObject SpawnDirector()
-	{
-		return (GameObject)Network.Instantiate(directorPrefab, new Vector2(0f, 0f), Quaternion.identity, 0);
-	}
-
-    private void SpawnPlayer(GameObject director)
+    private void SpawnPlayer()
     {
         GameObject player = (GameObject) Network.Instantiate(playerPrefab, new Vector2(0f, 0f), Quaternion.identity, 0);
-		player.GetComponent<PlayerScript>().director = director;
     }
 
 
