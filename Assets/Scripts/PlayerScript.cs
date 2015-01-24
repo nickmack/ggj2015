@@ -99,21 +99,6 @@ public class PlayerScript : MonoBehaviour {
 			}
         }
 	}
-
-	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
-	{
-		Vector3 syncPosition = Vector3.zero;
-		if (stream.isWriting)
-		{
-			syncPosition = rigidbody2D.position;
-			stream.Serialize(ref syncPosition);
-		}
-		else
-		{
-			stream.Serialize(ref syncPosition);
-			transform.position = syncPosition;
-		}
-	}
     
 }
 
