@@ -11,7 +11,7 @@ public class PlayerScript : MonoBehaviour {
 	private InputAction serverCurrentInput = InputAction.NoAction;
 
 	private Every checkInput;
-	private float checkInputInterval = 0.05f;
+	private float checkInputInterval = 0.1f;
 
 	void Start()
 	{

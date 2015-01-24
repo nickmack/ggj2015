@@ -16,7 +16,7 @@ public class MultiInputMovement : MonoBehaviour {
 		Debug.Log ("currentAction inicial" + CurrentAction);
 
 		// Resolve the input every 10seconds
-		resolveInput = new Every (0.1f);
+		resolveInput = new Every (0.05f);
 		resolveInput.IsTriggered = true;
 
 	}
@@ -37,14 +37,14 @@ public class MultiInputMovement : MonoBehaviour {
 		if (Network.isServer) {
 			InputAction inputAction = (InputAction)input;
 			Debug.Log ("Player " + player.ToString () + " move: " + inputAction);
-			lastInput [int.Parse (player.ToString ())] = inputAction;
+			lastInput [int.Parse (player.ToString ()) -1] = inputAction;
 		}
 	}
 
 	// Aqui é o carai de como vai mover
 	void ResolveInput() {
 		if (Network.isServer) {
-			Debug.Log("Resolving action: " + lastInput[0] + lastInput[1] + lastInput[2]);
+			Debug.Log("Resolving action: " + lastInput[0] + " " + lastInput[1] + " " + lastInput[2]);
 			if (lastInput[0] == lastInput[1] && lastInput[1] == lastInput[2]) {
 				CurrentAction = lastInput[0];
 			} else {
