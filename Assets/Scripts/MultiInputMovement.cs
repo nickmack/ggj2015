@@ -41,8 +41,4 @@ public class MultiInputMovement : MonoBehaviour {
 		currentAction = InputAction.NoAction;
 		Debug.Log("Resolve depois: " + currentAction);
 	}
-
-	public InputAction getAgra() {
-		return this.currentAction;
-	}
 }

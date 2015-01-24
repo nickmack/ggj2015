@@ -25,18 +25,18 @@ public class NetworkManager : MonoBehaviour {
     void OnServerInitialized()
     {
         Debug.Log("Server Initializied");
-		SpawnDirector();
-        SpawnPlayer();
+		SpawnPlayer(SpawnDirector());
     }
 
-	private void SpawnDirector()
+	private GameObject SpawnDirector()
 	{
-		Network.Instantiate(directorPrefab, new Vector2(0f, 0f), Quaternion.identity, 0);
+		return (GameObject)Network.Instantiate(directorPrefab, new Vector2(0f, 0f), Quaternion.identity, 0);
 	}
 
-    private void SpawnPlayer()
+    private void SpawnPlayer(GameObject director)
     {
-        Network.Instantiate(playerPrefab, new Vector2(0f, 0f), Quaternion.identity, 0);
+        GameObject player = (GameObject) Network.Instantiate(playerPrefab, new Vector2(0f, 0f), Quaternion.identity, 0);
+		player.GetComponent<PlayerScript>().director = director;
     }
 
 
