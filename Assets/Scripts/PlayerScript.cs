@@ -7,7 +7,10 @@ public class PlayerScript : MonoBehaviour {
 
     void Update()
     {
-        InputMovement();
+        if (networkView.isMine)
+        {
+            InputMovement();
+        }
     }
 
     void InputMovement()
