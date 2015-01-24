@@ -60,6 +60,11 @@ public class NetworkManager : MonoBehaviour {
         Debug.Log("Server Joined");
     }
 
+	void OnDisconnectedFromServer (NetworkDisconnection info) {
+		Debug.Log("Disconnected from server: " + info);
+		GameObject.Destroy(GameObject.Find ("SquarePref"));
+
+	}
 
     void OnMasterServerEvent(MasterServerEvent msEvent)
     {
