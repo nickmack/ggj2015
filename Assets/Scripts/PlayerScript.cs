@@ -92,6 +92,8 @@ public class PlayerScript : MonoBehaviour {
 					transform.position = (Vector2) transform.position - Vector2.right * speed * Time.deltaTime;
 					break;
 				case InputAction.NoAction:
+					transform.position = (Vector2) transform.position;
+                    break;
 				default:
 					break;
 			}
