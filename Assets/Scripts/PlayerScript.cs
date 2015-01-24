@@ -5,59 +5,97 @@ public class PlayerScript : MonoBehaviour {
 
     public float speed = 10f;
 
-    private Vector2 lastClientPos = Vector2.zero;
+	private InputAction lastClientInput = InputAction.NoAction;
 
     //The input values the server will execute on this object
-    private Vector2 serverCurrentPos = Vector2.zero;
+	private InputAction serverCurrentInput = InputAction.NoAction;
+
+	private Every checkInput;
+	private float checkInputInterval = 0.2f;
+
+	public MultiInputMovement director;
+
+	void Start()
+	{
+		checkInput = new Every (checkInputInterval);
+	}
 
     void Update()
     {
-    	InputMovement();
+		if (checkInput.IsTriggered) {
+			CheckInput();
+		}
+
+		ExecuteAction();
     }
 
-    void InputMovement()
+	void CheckInput()
     {
         // Client movement code
         if (Network.isClient)
         {
-            Vector2 newPos = transform.position;
+			InputAction desiredAction = InputAction.NoAction;
             if (Input.GetKey(KeyCode.W)) {
-				newPos = newPos + Vector2.up * speed * Time.deltaTime;
+				desiredAction = InputAction.MoveUp;
+				//newPos = newPos + Vector2.up * speed * Time.deltaTime;
 			}
 
             if (Input.GetKey(KeyCode.S)) {
-				newPos = newPos - Vector2.up * speed * Time.deltaTime;
+				desiredAction = InputAction.MoveDown;
+				//newPos = newPos - Vector2.up * speed * Time.deltaTime;
 			}
 
             if (Input.GetKey(KeyCode.D)) {
-				newPos = newPos + Vector2.right * speed * Time.deltaTime;
+				desiredAction = InputAction.MoveRight;
+				//newPos = newPos + Vector2.right * speed * Time.deltaTime;
 			}
 
             if (Input.GetKey(KeyCode.A)) {
-				newPos = newPos - Vector2.right * speed * Time.deltaTime;
+				desiredAction = InputAction.MoveLeft;
+				//newPos = newPos - Vector2.right * speed * Time.deltaTime;
 			}
 
-            //Is our input different? Do we need to update the server?
-            if (lastClientPos.x != newPos.x || lastClientPos.y != newPos.y)
+			if (Input.GetKey(KeyCode.Space)) {
+				desiredAction = InputAction.Attack;
+			}
+
+            //TODO Is our input different? Do we need to update the server?
+			//TODO improve this like before
+            Debug.Log ("Client Intention changed from: " + lastClientInput + " to " + desiredAction);
+            lastClientInput = desiredAction;
+            networkView.RPC("SendMovementInput", RPCMode.Server, Network.player, desiredAction);
+        }
+
+        
+    }
+
+	void ExecuteAction()
+	{
+		//Server movement code
+        if(Network.isServer){
+
+			InputAction currentAction = director.CurrentActionForPlayer;
+
+			switch (currentAction) 
 			{
-				Debug.Log ("Client move from " + lastClientPos.ToString() + " to " + newPos.ToString());
-                lastClientPos = newPos;
-                networkView.RPC("SendMovementInput", RPCMode.Server, newPos.x, newPos.y);
-            }
+				case InputAction.MoveUp:
+					transform.position = (Vector2) transform.position + Vector2.up * speed * Time.deltaTime;
+					break;
+				case InputAction.MoveDown:
+					transform.position = (Vector2) transform.position - Vector2.up * speed * Time.deltaTime;
+					break;
+				case InputAction.MoveRight:
+					transform.position = (Vector2) transform.position + Vector2.right * speed * Time.deltaTime;
+					break;
+				case InputAction.MoveLeft:
+					transform.position = (Vector2) transform.position - Vector2.right * speed * Time.deltaTime;
+					break;
+				case InputAction.NoAction:
+				default:
+					break;
+			}
         }
-
-        //Server movement code
-        if(Network.isServer){//Also enable this on the client itself: "|| Network.player==owner){|"
-            //Actually move the player using his/her input
-			transform.position = serverCurrentPos;
-        }
-    }
-
-    [RPC]
-    void SendMovementInput(float x, float y){ 
-        //Called on the server
-        serverCurrentPos = new Vector2(x, y);
-    }
+	}
 
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
 	{
@@ -74,4 +112,13 @@ public class PlayerScript : MonoBehaviour {
 		}
 	}
     
+}
+
+public enum InputAction {
+	MoveUp,
+	MoveDown,
+	MoveLeft,
+	MoveRight,
+	Attack,
+	NoAction
 }
