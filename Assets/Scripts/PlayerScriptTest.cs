@@ -17,32 +17,40 @@ public class PlayerScriptTest : MonoBehaviour
     {
         float inputX = 0;
         float inputZ = 0;
+        float rotation = transform.rotation.y;
 
+        
         // 4 - Movement per direction
         if (Input.GetKey(KeyCode.W))
         {
             inputZ = 1;
+            rotation = 0;
         }
 
         if (Input.GetKey(KeyCode.S))
         {
             inputZ = -1;
+            rotation = 180;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
             inputX = 1;
+            rotation = 270;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
             inputX = -1;
+            rotation = 90;
         }
 
 
         movement = new Vector3(
             speed.x * inputX,
             0, speed.z * inputZ);
+        transform.rotation = Quaternion.Euler(90, 0, rotation);
+
 
         anim = GetComponent<Animator>();
         if (movement.x != 0 || movement.z != 0)
@@ -57,8 +65,8 @@ public class PlayerScriptTest : MonoBehaviour
 
     void FixedUpdate()
     {
-        rigidbody2D.velocity = movement;
+        rigidbody.velocity = movement;
         transform.eulerAngles = Vector3.zero;
-        rigidbody2D.angularVelocity = 0f;
+        rigidbody.angularVelocity = Vector3.zero;
     }
 }
