@@ -95,4 +95,10 @@ public class NetworkManager : MonoBehaviour {
         MasterServer.RegisterHost(typeName, serverName);
     }
 
+	void OnApplicationQuit()
+	{
+		Network.Disconnect ();
+		MasterServer.UnregisterHost ();
+	}
+
 }
