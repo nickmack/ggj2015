@@ -213,13 +213,10 @@ public class MainMenu : MonoBehaviour {
     // Only called by server
 	void TriggerUpdateConnectedPlayers() 
 	{
-		if (Network.isServer) 
-		{
-			UpdateConnectedPlayers(playerCount);
-			networkView.RPC("UpdatePlayers", RPCMode.Server, playerCount);
-		}
-	}
-
+        UpdateConnectedPlayers(playerCount);
+        networkView.RPC("UpdatePlayers", RPCMode.Server, playerCount);
+    }
+    
 	[RPC]
 	void UpdatePlayers(int playersConnected) 
 	{
