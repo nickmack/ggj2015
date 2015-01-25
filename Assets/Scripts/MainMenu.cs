@@ -77,6 +77,7 @@ public class MainMenu : MonoBehaviour {
 	{
 		int playersConnected = Network.connections.Length + 1;
 
+		Debug.Log ("Player connected. Total: " + playersConnected);
 		if (Network.isServer) 
 		{
 			networkView.RPC("UpdatePlayers", RPCMode.Server, playersConnected);
@@ -105,11 +106,13 @@ public class MainMenu : MonoBehaviour {
 	{
 		if (msEvent == MasterServerEvent.HostListReceived)
 		{
+			Debug.Log ("Received Host List");
 			HostData[] hostList = MasterServer.PollHostList();
+			Debug.Log("Number of hosts: " + hostList.Length);
 
 			for (int i = 0; i < hostList.Length; i++)
 			{
-				if (GUI.Button(new Rect(400, 100 + (60 * i), 150, 50), hostList[i].gameName))
+				if (GUI.Button(new Rect(-261, 7.5f + (60 * i), 150, 50), hostList[i].gameName))
 					networkManager.JoinServer(hostList[i]);
 			}
 		}

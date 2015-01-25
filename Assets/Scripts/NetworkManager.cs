@@ -91,7 +91,7 @@ public class NetworkManager : MonoBehaviour {
 			serverName = gameName;
 		}
 
-        Network.InitializeServer(2, PORT, !Network.HavePublicAddress());
+        Network.InitializeServer(4, PORT, !Network.HavePublicAddress());
         MasterServer.RegisterHost(typeName, serverName);
     }
 
