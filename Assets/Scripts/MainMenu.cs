@@ -48,7 +48,6 @@ public class MainMenu : MonoBehaviour {
 		createJoinPanel.SetActive (false);
 		networkManager.StartServer (Network.player.externalIP);
 		waitingForPlayersPanel.SetActive (true);
-		networkManager.RefreshHostList ();
 		GameObject.Find ("ServerAddressLabel").GetComponentInChildren<Text>().text = Network.player.externalIP;
 	}
 
@@ -56,6 +55,7 @@ public class MainMenu : MonoBehaviour {
 	{
 		createJoinPanel.SetActive (false);
 		serverListPanel.SetActive (true);
+		networkManager.RefreshHostList ();
 	}
 	
 	public void StartGameButton_Click()

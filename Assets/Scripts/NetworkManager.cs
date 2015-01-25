@@ -77,6 +77,7 @@ public class NetworkManager : MonoBehaviour {
 
     public void RefreshHostList()
     {
+		Debug.Log ("Requesting host list");
         MasterServer.RequestHostList(typeName);
     }
 
