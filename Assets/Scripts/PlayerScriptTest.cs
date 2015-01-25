@@ -5,10 +5,12 @@ public class PlayerScriptTest : MonoBehaviour
     public Vector3 speed;
 
     private Vector3 movement;
+    private Animator anim;
 
     void start()
     {
         rigidbody.freezeRotation = true;
+
     }
 
     void Update()
@@ -37,15 +39,26 @@ public class PlayerScriptTest : MonoBehaviour
             inputX = -1;
         }
 
+
         movement = new Vector3(
             speed.x * inputX,
             0, speed.z * inputZ);
+
+        anim = GetComponent<Animator>();
+        if (movement.x != 0 || movement.z != 0)
+        {
+            anim.SetBool("isWalking", true);
+        }
+        else
+        {
+            anim.SetBool("isWalking", false);
+        }
     }
 
     void FixedUpdate()
     {
-        rigidbody.velocity = movement;
+        rigidbody2D.velocity = movement;
         transform.eulerAngles = Vector3.zero;
-        rigidbody.angularVelocity = Vector3.zero;
+        rigidbody2D.angularVelocity = 0f;
     }
 }

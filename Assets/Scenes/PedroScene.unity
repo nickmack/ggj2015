@@ -1553,7 +1553,7 @@ Prefab:
         type: 3}
     - target: {fileID: 5031418, guid: 987dec538e294e647ac80a8793604020, type: 2}
       propertyPath: m_GravityScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5031418, guid: 987dec538e294e647ac80a8793604020, type: 2}
       propertyPath: m_FixedAngle
@@ -2242,7 +2242,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: .0500000007
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_FixedAngle: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -2913,7 +2913,7 @@ Renderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1207165006}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_LightmapIndex: 255
