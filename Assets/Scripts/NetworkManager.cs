@@ -42,23 +42,21 @@ public class NetworkManager : MonoBehaviour {
     }
 
 	void OnDisconnectedFromServer(NetworkDisconnection info) {
-		Debug.Log ("DISCONNECTED");
 		if (Network.isServer)
         {
-            Debug.Log("Local server connection disconnected");
+            Debug.Log("DISCONNECTED: Local server connection disconnected");
         }
 		else
         {
 			if (info == NetworkDisconnection.LostConnection)
             {
-				Debug.Log ("Lost connection to the server");
+				Debug.Log ("DISCONNECTED: Lost connection to the server");
             } 
             else 
             {
-				Debug.Log ("Successfully diconnected from the server");
+				Debug.Log ("DISCONNECTED: Successfully diconnected from the server");
             }
 		}
-        Debug.Log("Resetting the scene the easy way.");
 	}
 
     void OnPlayerDisconnected(NetworkPlayer player) {

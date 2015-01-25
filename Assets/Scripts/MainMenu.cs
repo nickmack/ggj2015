@@ -165,8 +165,10 @@ public class MainMenu : MonoBehaviour {
 
 	void OnPlayerDisconnected(NetworkPlayer player) 
 	{
+		Debug.Log ("OnPlayerDisconneted");
 		if (Network.isServer) 
 		{
+			Debug.Log ("Server triggering players update");
 			TriggerUpdateConnectedPlayers();
 		}
 	}
