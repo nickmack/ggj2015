@@ -63,9 +63,9 @@ public class NetworkManager : MonoBehaviour {
 	}
 
     void OnPlayerDisconnected(NetworkPlayer player) {
-        Debug.Log("Clean up after player " + player);
-        Network.RemoveRPCs(player);
-        Network.DestroyPlayerObjects(player);
+        //Debug.Log("Clean up after player " + player);
+        //Network.RemoveRPCs(player);
+        //Network.DestroyPlayerObjects(player);
     }
 
     void OnMasterServerEvent(MasterServerEvent msEvent)

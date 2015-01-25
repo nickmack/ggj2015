@@ -40,7 +40,31 @@ public class MainMenu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (Input.GetKey (KeyCode.Escape)) 
+		{
+			if (waitingForPlayersPanel.activeSelf) 
+			{
+				DisconnectFromGame();
+				waitingForPlayersPanel.SetActive(false);
+				createJoinPanel.SetActive(true);
+			} else if (serverListPanel.activeSelf) 
+			{
+				waitingForPlayersPanel.SetActive(false);
+				createJoinPanel.SetActive(true);
+			}
+		}
+	}
+
+	void DisconnectFromGame() 
+	{
+		if (Network.isServer) 
+		{
+			Network.Disconnect ();
+			MasterServer.UnregisterHost ();
+		} else 
+		{
+			Network.Disconnect ();
+		}
 	}
 
 	/* *
@@ -80,11 +104,19 @@ public class MainMenu : MonoBehaviour {
 
 	void OnPlayerConnected(NetworkPlayer player) 
 	{
-		int playersConnected = Network.connections.Length + 1;
-
-		Debug.Log ("Player connected. Total: " + playersConnected);
+		Debug.Log ("Player connected.");
 		if (Network.isServer) 
 		{
+			TriggerUpdateConnectedPlayers();
+		}
+	}
+
+	// Only called by server
+	void TriggerUpdateConnectedPlayers() 
+	{
+		if (Network.isServer) 
+		{
+			int playersConnected = Network.connections.Length + 1;
 			UpdateConnectedPlayers(playersConnected);
 			networkView.RPC("UpdatePlayers", RPCMode.Server, playersConnected);
 		}
@@ -128,6 +160,14 @@ public class MainMenu : MonoBehaviour {
 					waitingForPlayersPanel.SetActive(true);
 				});
 			}
+		}
+	}
+
+	void OnPlayerDisconnected(NetworkPlayer player) 
+	{
+		if (Network.isServer) 
+		{
+			TriggerUpdateConnectedPlayers();
 		}
 	}
 }
