@@ -6,7 +6,7 @@ public class NetworkManager : MonoBehaviour {
     #region Private attributes
 
     private const string typeName = "GGJ2015";
-    private const string gameName = "mansion";
+    private string gameName = "mansion";
 
     private HostData[] hostList;
 
@@ -20,71 +20,27 @@ public class NetworkManager : MonoBehaviour {
 
     #endregion
 
-
-    void OnServerInitialized()
-    {
-        Debug.Log("Server Initializied");
-		SpawnPlayer();
-    }
+	void Awake() 
+	{
+		DontDestroyOnLoad (this);
+	}
 
     private void SpawnPlayer()
     {
         GameObject player = (GameObject) Network.Instantiate(playerPrefab, new Vector2(0f, 0f), Quaternion.identity, 0);
     }
 
-
-    void OnGUI()
-    {
-        if (!Network.isClient && !Network.isServer)
-        {
-            if (GUI.Button(new Rect(100, 100, 250, 100), "Start Server"))
-                StartServer();
-
-            if (GUI.Button(new Rect(100, 250, 250, 100), "Refresh Hosts"))
-                RefreshHostList();
-
-            if (hostList != null)
-            {
-                for (int i = 0; i < hostList.Length; i++)
-                {
-                    if (GUI.Button(new Rect(400, 100 + (110 * i), 300, 100), hostList[i].gameName))
-                        JoinServer(hostList[i]);
-                }
-            }
-        }
-    }
-
-
     void OnConnectedToServer()
     {
         Debug.Log("Server Joined");
     }
 
-	void OnDisconnectedFromServer(NetworkDisconnection info) {
-		Debug.Log ("DISCONNECTED");
-		if (Network.isServer)
-        {
-            Debug.Log("Local server connection disconnected");
-        }
-		else
-        {
-			if (info == NetworkDisconnection.LostConnection)
-            {
-				Debug.Log ("Lost connection to the server");
-            } 
-            else 
-            {
-				Debug.Log ("Successfully diconnected from the server");
-            }
-		}
-        Debug.Log("Resetting the scene the easy way.");
-        Application.LoadLevel(Application.loadedLevel); 
-	}
+
 
     void OnPlayerDisconnected(NetworkPlayer player) {
-        Debug.Log("Clean up after player " + player);
-        Network.RemoveRPCs(player);
-        Network.DestroyPlayerObjects(player);
+        //Debug.Log("Clean up after player " + player);
+        //Network.RemoveRPCs(player);
+        //Network.DestroyPlayerObjects(player);
     }
 
     void OnMasterServerEvent(MasterServerEvent msEvent)
@@ -94,20 +50,31 @@ public class NetworkManager : MonoBehaviour {
     }
 
 
-    private void RefreshHostList()
+    public void RefreshHostList()
     {
+		Debug.Log ("Requesting host list");
         MasterServer.RequestHostList(typeName);
     }
 
-    private void JoinServer(HostData hostData)
+    public void JoinServer(HostData hostData)
     {
         Network.Connect(hostData);
     }
 
-    private void StartServer()
+    public void StartServer(string serverName)
     {
+		if (string.IsNullOrEmpty(serverName)) {
+			serverName = gameName;
+		}
+
         Network.InitializeServer(4, PORT, !Network.HavePublicAddress());
-        MasterServer.RegisterHost(typeName, gameName);
+        MasterServer.RegisterHost(typeName, serverName);
     }
+
+	void OnApplicationQuit()
+	{
+		Network.Disconnect ();
+		MasterServer.UnregisterHost ();
+	}
 
 }
