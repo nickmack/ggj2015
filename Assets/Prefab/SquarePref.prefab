@@ -10,13 +10,11 @@ GameObject:
   - 4: {fileID: 431418}
   - 212: {fileID: 21231418}
   - 50: {fileID: 5031418}
-  - 114: {fileID: 11488748}
-  - 148: {fileID: 14897050}
-  - 114: {fileID: 11429152}
-  - 114: {fileID: 11459012}
+  - 114: {fileID: 11400000}
+  - 61: {fileID: 6100000}
   m_Layer: 0
   m_Name: SquarePref
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +26,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 131418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.56153393, y: .22765556, z: 0}
+  m_LocalPosition: {x: -3.25, y: -.0700000003, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,12 +41,23 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: .0500000007
   m_GravityScale: 0
-  m_FixedAngle: 0
+  m_FixedAngle: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
---- !u!114 &11429152
+--- !u!61 &6100000
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131418}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: .639999986, y: .639999986}
+  m_Center: {x: 0, y: 0}
+--- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -56,46 +65,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 131418}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d88deb67da9e649da8ccd3ef81bbd9a3, type: 3}
+  m_Script: {fileID: 11500000, guid: eafa3ed5a493cc342a24f64416fcb0cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11459012
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 131418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e6f89e61cf554615af33a5e8fbd2d8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentAction: 5
---- !u!114 &11488748
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 131418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2d2675a1e04ba9428077d6bc5a238be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  director: {fileID: 146430, guid: 27e5c3050d9064e3285cfeae7a2e867a, type: 2}
---- !u!148 &14897050
-NetworkView:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 131418}
-  m_Enabled: 1
-  m_StateSynchronization: 1
-  m_Observed: {fileID: 11429152}
-  m_ViewID:
-    m_ID: 0
-    m_Type: 0
+  speed: {x: 5, y: 5}
 --- !u!212 &21231418
 SpriteRenderer:
   m_ObjectHideFlags: 1
