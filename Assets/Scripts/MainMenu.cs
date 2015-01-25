@@ -103,6 +103,7 @@ public class MainMenu : MonoBehaviour {
 	{
 		for (int i = 1; i <= connectedPlayers; i++)
 		{
+			Debug.Log ("Label to change: Player" + i + "StatusLabel. Found GO?: " + GameObject.Find ("Player" + i + "StatusLabel"));
 			GameObject.Find ("Player" + i + "StatusLabel").GetComponent<Text>().text = "OK";
 			GameObject.Find ("Player" + i + "StatusLabel").GetComponent<Text>().color = Color.green;
 		}
