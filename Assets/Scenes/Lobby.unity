@@ -624,7 +624,7 @@ GameObject:
   - 222: {fileID: 739554107}
   - 114: {fileID: 739554106}
   m_Layer: 5
-  m_Name: Player1StatusLabel
+  m_Name: Player2StatusLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1402,7 +1402,7 @@ GameObject:
   - 222: {fileID: 1543123482}
   - 114: {fileID: 1543123481}
   m_Layer: 5
-  m_Name: Player1StatusLabel
+  m_Name: Player3StatusLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
