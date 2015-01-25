@@ -101,8 +101,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1658441025}
   - {fileID: 384689569}
-  - {fileID: 792144451}
   - {fileID: 2062299390}
   - {fileID: 530852031}
   - {fileID: 1944633836}
@@ -271,7 +271,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 180921923}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -36, y: 26.8999996}
@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Color: {r: .1953125, g: .1953125, b: .1953125, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 12
+    m_FontSize: 10
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -649,7 +649,7 @@ GameObject:
   - 222: {fileID: 792144453}
   - 114: {fileID: 792144452}
   m_Layer: 5
-  m_Name: ServerAddressLabel
+  m_Name: ServerAddressLabelUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -665,12 +665,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 180921923}
-  m_RootOrder: 1
+  m_Father: {fileID: 1658441025}
+  m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 42.7999992, y: 25.6000004}
-  m_SizeDelta: {x: 75.4000015, y: 19.1000004}
+  m_AnchoredPosition: {x: 104, y: 18.2000008}
+  m_SizeDelta: {x: 123.400002, y: 11.6000004}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &792144452
 MonoBehaviour:
@@ -687,7 +687,7 @@ MonoBehaviour:
   m_Color: {r: .1953125, g: .1953125, b: .1953125, a: 1}
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 10
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -718,6 +718,7 @@ GameObject:
   - 92: {fileID: 848265747}
   - 124: {fileID: 848265746}
   - 81: {fileID: 848265745}
+  - 114: {fileID: 848265750}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -790,6 +791,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &848265750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 848265744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb7fe038c8ddab40928760c248c6237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 0}
 --- !u!1 &933658237
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,6 +1368,39 @@ RectTransform:
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -7, y: -38}
   m_SizeDelta: {x: 315, y: 55}
+  m_Pivot: {x: .5, y: .5}
+--- !u!1 &1658441024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 1658441025}
+  m_Layer: 5
+  m_Name: ServerAddressLabel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1658441025
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1658441024}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 792144451}
+  m_Father: {fileID: 180921923}
+  m_RootOrder: 0
+  m_AnchorMin: {x: .5, y: .5}
+  m_AnchorMax: {x: .5, y: .5}
+  m_AnchoredPosition: {x: -37.1999893, y: 11.1999979}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: .5, y: .5}
 --- !u!1 &1731557517
 GameObject:
