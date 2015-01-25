@@ -49,7 +49,7 @@ public class MainMenu : MonoBehaviour {
 				createJoinPanel.SetActive(true);
 			} else if (serverListPanel.activeSelf) 
 			{
-				waitingForPlayersPanel.SetActive(false);
+				serverListPanel.SetActive(false);
 				createJoinPanel.SetActive(true);
 			}
 		}
