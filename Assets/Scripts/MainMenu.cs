@@ -9,6 +9,8 @@ public class MainMenu : MonoBehaviour {
 	private GameObject createGameButton;
 	private GameObject joinGameButton;
 	private GameObject startGameButton;
+	private GameObject serverButton;
+	private HostData[] host;
 	private NetworkManager networkManager;
 
 	// Use this for initialization
@@ -21,6 +23,7 @@ public class MainMenu : MonoBehaviour {
 		joinGameButton = GameObject.Find ("JoinGameButton");
 		networkManager = GameObject.Find ("Controller").GetComponent<NetworkManager> ();
 		startGameButton = GameObject.Find ("StartGameButton");
+		serverButton = GameObject.Find ("ServerButton");
 
 		// Wire events
 		// Note: Remember our buttons are not components, but CHILDREN of the GameObjects
@@ -28,9 +31,11 @@ public class MainMenu : MonoBehaviour {
 		joinGameButton.GetComponentInChildren<Button> ().onClick.AddListener (() => JoinGameButton_Click());
 		startGameButton.GetComponent<Button>().onClick.AddListener (() => StartGameButton_Click());
 
+
 		// Hide everything initially
 		waitingForPlayersPanel.SetActive (false);
 		serverListPanel.SetActive (false);
+		serverButton.SetActive (false);
 	}
 	
 	// Update is called once per frame
@@ -55,6 +60,7 @@ public class MainMenu : MonoBehaviour {
 	{
 		createJoinPanel.SetActive (false);
 		serverListPanel.SetActive (true);
+		serverButton.SetActive (true);
 		networkManager.RefreshHostList ();
 	}
 	
@@ -112,8 +118,10 @@ public class MainMenu : MonoBehaviour {
 
 			for (int i = 0; i < hostList.Length; i++)
 			{
-				if (GUI.Button(new Rect(-261, 7.5f + (60 * i), 150, 50), hostList[i].gameName))
+				serverButton.GetComponentInChildren<Text>().text = hostList[i].gameName;
+				serverButton.GetComponent<Button>().onClick.AddListener (() => {
 					networkManager.JoinServer(hostList[i]);
+				});
 			}
 		}
 	}
