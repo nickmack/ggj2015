@@ -90,6 +90,7 @@ public class MainMenu : MonoBehaviour {
 		}
 	}
 
+	[RPC]
 	void UpdatePlayers(int playersConnected) 
 	{
 		if (Network.isClient) 
@@ -122,6 +123,8 @@ public class MainMenu : MonoBehaviour {
 				int hostIndex = i;
 				serverButton.GetComponent<Button>().onClick.AddListener (() => {
 					networkManager.JoinServer(hostList[hostIndex]);
+					serverListPanel.SetActive(false);
+					waitingForPlayersPanel.SetActive(true);
 				});
 			}
 		}
