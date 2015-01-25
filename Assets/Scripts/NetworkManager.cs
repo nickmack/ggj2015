@@ -27,7 +27,7 @@ public class NetworkManager : MonoBehaviour {
 
     void OnServerInitialized()
     {
-        Debug.Log("Server Initializied");
+        Debug.Log("Server Initializied. Connection count = " + Network.connections.Length);
 		//SpawnPlayer();
     }
 

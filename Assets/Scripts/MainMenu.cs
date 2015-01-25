@@ -59,6 +59,7 @@ public class MainMenu : MonoBehaviour {
 	{
 		if (Network.isServer) 
 		{
+			Debug.Log("Ranayana eu te amo");
 			Network.Disconnect ();
 			MasterServer.UnregisterHost ();
 		} else 
@@ -77,7 +78,7 @@ public class MainMenu : MonoBehaviour {
 		createJoinPanel.SetActive (false);
 		networkManager.StartServer (Network.player.externalIP);
 		waitingForPlayersPanel.SetActive (true);
-		GameObject.Find ("ServerAddressLabel").GetComponentInChildren<Text>().text = Network.player.externalIP;
+		GameObject.Find ("ServerAddressLabel").GetComponentInChildren<Text>().text = Network.player.ipAddress;
 	}
 
 	public void JoinGameButton_Click()
@@ -104,7 +105,8 @@ public class MainMenu : MonoBehaviour {
 
 	void OnPlayerConnected(NetworkPlayer player) 
 	{
-		Debug.Log ("Player connected.");
+		Debug.Log ("Player conneceted. Count:" + Network.connections.Length);
+		Debug.Log ("Player connected. IP: " + player.ipAddress);
 		if (Network.isServer) 
 		{
 			TriggerUpdateConnectedPlayers();
@@ -116,7 +118,17 @@ public class MainMenu : MonoBehaviour {
 	{
 		if (Network.isServer) 
 		{
-			int playersConnected = Network.connections.Length + 1;
+			bool serverOnConnectionList = false;
+			foreach (NetworkPlayer conn in Network.connections) 
+			{
+				if (conn.guid == Network.player.guid) 
+				{
+					serverOnConnectionList = true;
+					break;
+				}
+			}
+
+			int playersConnected = serverOnConnectionList ? Network.connections.Length : Network.connections.Length + 1;
 			UpdateConnectedPlayers(playersConnected);
 			networkView.RPC("UpdatePlayers", RPCMode.Server, playersConnected);
 		}
@@ -135,7 +147,6 @@ public class MainMenu : MonoBehaviour {
 	{
 		for (int i = 1; i <= connectedPlayers; i++)
 		{
-			Debug.Log ("Label to change: Player" + i + "StatusLabel. Found GO?: " + GameObject.Find ("Player" + i + "StatusLabel"));
 			GameObject.Find ("Player" + i + "StatusLabel").GetComponent<Text>().text = "OK";
 			GameObject.Find ("Player" + i + "StatusLabel").GetComponent<Text>().color = Color.green;
 		}
@@ -165,11 +176,11 @@ public class MainMenu : MonoBehaviour {
 
 	void OnPlayerDisconnected(NetworkPlayer player) 
 	{
-		Debug.Log ("OnPlayerDisconneted");
-		if (Network.isServer) 
-		{
-			Debug.Log ("Server triggering players update");
-			TriggerUpdateConnectedPlayers();
-		}
+		Debug.Log ("OnPlayerDisconneted. IP: " + player.ipAddress);
+		Network.CloseConnection (Network.connections [0], false);
+		Network.DestroyPlayerObjects (player);
+		Network.RemoveRPCs (player);
+		Debug.Log ("First connection: " + Network.connections[0].ipAddress);
+		TriggerUpdateConnectedPlayers();
 	}
 }
