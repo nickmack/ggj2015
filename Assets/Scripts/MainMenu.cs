@@ -122,6 +122,7 @@ public class MainMenu : MonoBehaviour {
 	
 	public void StartGameButton_Click()
 	{
+		networkView.RPC( "LoadLevel", RPCMode.AllBuffered);
 		Application.LoadLevel ("Main");
 	}
 
@@ -228,6 +229,12 @@ public class MainMenu : MonoBehaviour {
 		}
 	}
 
+	[RPC]
+	void LoadLevel()
+	{
+		Application.LoadLevel ("Main");
+	}
+
 	void UpdateConnectedPlayers(int connectedPlayers)
 	{
 		for (int i = 1; i <= 3; i++)
@@ -245,7 +252,7 @@ public class MainMenu : MonoBehaviour {
 			}
 		}
 
-		if (connectedPlayers == 3) 
+		if (connectedPlayers == 3 && Network.isServer) 
 		{
 			startGameButton.SetActive(true);
 		} else 
