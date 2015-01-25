@@ -5,7 +5,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: SquarePref
+  m_Name: Character_Controller
   serializedVersion: 2
   m_AnimatorParameters:
   - m_Name: isWalking
@@ -17,7 +17,7 @@ AnimatorController:
   m_AnimatorLayers:
   - serializedVersion: 3
     m_Name: Base Layer
-    m_StateMachine: {fileID: 110786776}
+    m_StateMachine: {fileID: 110793966}
     m_Mask: {fileID: 0}
     m_BlendingMode: 0
     m_SyncedLayerIndex: -1
@@ -26,15 +26,15 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1101 &110185788
+--- !u!1101 &110101492
 Transition:
   serializedVersion: 2
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: 
-  m_SrcState: {fileID: 110234324}
-  m_DstState: {fileID: 110286776}
+  m_SrcState: {fileID: 110293966}
+  m_DstState: {fileID: 110232612}
   m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_Conditions:
@@ -46,78 +46,78 @@ Transition:
   m_Solo: 0
   m_Mute: 0
   m_CanTransitionToSelf: 0
---- !u!1101 &110187606
+--- !u!1101 &110176806
 Transition:
   serializedVersion: 2
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: 
-  m_SrcState: {fileID: 110286776}
-  m_DstState: {fileID: 110234324}
-  m_TransitionDuration: 0
+  m_SrcState: {fileID: 110232612}
+  m_DstState: {fileID: 110293966}
+  m_TransitionDuration: .100000001
   m_TransitionOffset: 0
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: isWalking
     m_EventTreshold: 0
-    m_ExitTime: 1
+    m_ExitTime: .899999976
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
   m_CanTransitionToSelf: 0
---- !u!1102 &110234324
+--- !u!1102 &110232612
 State:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: PlayerWalking
+  m_Name: Idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Motions:
-  - {fileID: 7400000, guid: 47949e71a12b2494c983b500a22bb0a6, type: 2}
-  m_ParentStateMachine: {fileID: 110786776}
-  m_Position: {x: 312, y: 144, z: 0}
+  - {fileID: 7400000, guid: fab96e4720fa0ba40950b337099ad8c1, type: 2}
+  m_ParentStateMachine: {fileID: 110793966}
+  m_Position: {x: -180, y: 120, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
---- !u!1102 &110286776
+--- !u!1102 &110293966
 State:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: PlayerIdle
+  m_Name: CharacterWalking
   m_Speed: 1
   m_CycleOffset: 0
   m_Motions:
-  - {fileID: 7400000, guid: f497567918ff2764dbafd09ea253e010, type: 2}
-  m_ParentStateMachine: {fileID: 110786776}
-  m_Position: {x: -216, y: 144, z: 0}
+  - {fileID: 7400000, guid: bb7371fd910321f429e3930af51e6d49, type: 2}
+  m_ParentStateMachine: {fileID: 110793966}
+  m_Position: {x: 408, y: 120, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
---- !u!1107 &110786776
+--- !u!1107 &110793966
 StateMachine:
   serializedVersion: 2
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Base Layer
-  m_DefaultState: {fileID: 110286776}
+  m_DefaultState: {fileID: 110232612}
   m_States:
-  - {fileID: 110286776}
-  - {fileID: 110234324}
+  - {fileID: 110293966}
+  - {fileID: 110232612}
   m_ChildStateMachine: []
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:
     data:
-      first: {fileID: 110234324}
+      first: {fileID: 110232612}
       second:
-      - {fileID: 110185788}
+      - {fileID: 110176806}
     data:
-      first: {fileID: 110286776}
+      first: {fileID: 110293966}
       second:
-      - {fileID: 110187606}
+      - {fileID: 110101492}
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
