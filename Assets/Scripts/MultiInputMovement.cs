@@ -10,10 +10,8 @@ public class MultiInputMovement : MonoBehaviour {
 	// Use this for initialization
 	void Awake () 
 	{
-		Debug.Log ("AWAKE DO SCRIPT");
 		lastInput = new InputAction[]{InputAction.NoAction, InputAction.NoAction, InputAction.NoAction};
 		CurrentAction = InputAction.NoAction;
-		Debug.Log ("currentAction inicial" + CurrentAction);
 
 		// Resolve the input every 10seconds
 		resolveInput = new Every (0.05f);

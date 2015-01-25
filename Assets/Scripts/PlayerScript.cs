@@ -31,40 +31,37 @@ public class PlayerScript : MonoBehaviour {
     {
 		Debug.Log ("CheckInput");
         // Client movement code
-        if (Network.isClient)
-        {
-			Debug.Log ("Client");
-			InputAction desiredAction = InputAction.NoAction;
-            if (Input.GetKey(KeyCode.W)) {
-				desiredAction = InputAction.MoveUp;
-				//newPos = newPos + Vector2.up * speed * Time.deltaTime;
-			}
+		Debug.Log ("Client");
+		InputAction desiredAction = InputAction.NoAction;
+	    if (Input.GetKey(KeyCode.W)) {
+			desiredAction = InputAction.MoveUp;
+			//newPos = newPos + Vector2.up * speed * Time.deltaTime;
+		}
 
-            if (Input.GetKey(KeyCode.S)) {
-				desiredAction = InputAction.MoveDown;
-				//newPos = newPos - Vector2.up * speed * Time.deltaTime;
-			}
+    	if (Input.GetKey(KeyCode.S)) {
+			desiredAction = InputAction.MoveDown;
+			//newPos = newPos - Vector2.up * speed * Time.deltaTime;
+		}
 
-            if (Input.GetKey(KeyCode.D)) {
-				desiredAction = InputAction.MoveRight;
-				//newPos = newPos + Vector2.right * speed * Time.deltaTime;
-			}
+    	if (Input.GetKey(KeyCode.D)) {
+			desiredAction = InputAction.MoveRight;
+			//newPos = newPos + Vector2.right * speed * Time.deltaTime;
+		}
 
-            if (Input.GetKey(KeyCode.A)) {
-				desiredAction = InputAction.MoveLeft;
-				//newPos = newPos - Vector2.right * speed * Time.deltaTime;
-			}
+    	if (Input.GetKey(KeyCode.A)) {
+			desiredAction = InputAction.MoveLeft;
+			//newPos = newPos - Vector2.right * speed * Time.deltaTime;
+		}
 
-			if (Input.GetKey(KeyCode.Space)) {
-				desiredAction = InputAction.Attack;
-			}
+		if (Input.GetKey(KeyCode.Space)) {
+			desiredAction = InputAction.Attack;
+		}
 
-            //TODO Is our input different? Do we need to update the server?
-			//TODO improve this like before
-            Debug.Log ("Client Intention changed from: " + lastClientInput + " to " + desiredAction);
-            lastClientInput = desiredAction;
-            networkView.RPC("SendMovementInput", RPCMode.Server, Network.player, (int) desiredAction);
-        }
+	    //TODO Is our input different? Do we need to update the server?
+		//TODO improve this like before
+	    Debug.Log ("Client Intention changed from: " + lastClientInput + " to " + desiredAction);
+	    lastClientInput = desiredAction;
+	    networkView.RPC("SendMovementInput", RPCMode.Server, Network.player, (int) desiredAction);
 
         
     }
