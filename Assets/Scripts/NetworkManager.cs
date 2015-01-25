@@ -59,7 +59,6 @@ public class NetworkManager : MonoBehaviour {
             }
 		}
         Debug.Log("Resetting the scene the easy way.");
-        Application.LoadLevel(Application.loadedLevel); 
 	}
 
     void OnPlayerDisconnected(NetworkPlayer player) {
