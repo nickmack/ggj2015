@@ -85,7 +85,7 @@ public class MainMenu : MonoBehaviour {
 		Debug.Log ("Player connected. Total: " + playersConnected);
 		if (Network.isServer) 
 		{
-			UpdateConnectedPlayers(Network.connections.Length);
+			UpdateConnectedPlayers(playersConnected);
 			networkView.RPC("UpdatePlayers", RPCMode.Server, playersConnected);
 		}
 	}
