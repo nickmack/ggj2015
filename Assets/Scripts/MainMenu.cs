@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour {
 	private GameObject serverListPanel;
 	private GameObject createGameButton;
 	private GameObject joinGameButton;
+	private GameObject startGameButton;
 	private NetworkManager networkManager;
 
 	// Use this for initialization
@@ -18,12 +19,14 @@ public class MainMenu : MonoBehaviour {
 		serverListPanel = GameObject.Find ("ServerListPanel");
 		createGameButton = GameObject.Find ("CreateGameButton");
 		joinGameButton = GameObject.Find ("JoinGameButton");
-		networkManager = Camera.main.GetComponent<NetworkManager> ();
+		networkManager = GameObject.Find ("Controller").GetComponent<NetworkManager> ();
+		startGameButton = GameObject.Find ("StartGameButton");
 
 		// Wire events
 		// Note: Remember our buttons are not components, but CHILDREN of the GameObjects
 		createGameButton.GetComponentInChildren<Button> ().onClick.AddListener (() => CreateGameButton_Click());
 		joinGameButton.GetComponentInChildren<Button> ().onClick.AddListener (() => JoinGameButton_Click());
+		startGameButton.GetComponent<Button>().onClick.AddListener (() => StartGameButton_Click());
 
 		// Hide everything initially
 		waitingForPlayersPanel.SetActive (false);
@@ -40,7 +43,6 @@ public class MainMenu : MonoBehaviour {
 		createJoinPanel.SetActive (false);
 		networkManager.StartServer (Network.player.externalIP);
 		waitingForPlayersPanel.SetActive (true);
-		Debug.Log (GameObject.Find ("ServerAddressLabel"));
 		GameObject.Find ("ServerAddressLabel").GetComponentInChildren<Text>().text = Network.player.externalIP;
 	}
 
@@ -53,5 +55,10 @@ public class MainMenu : MonoBehaviour {
 	{
 		createJoinPanel.SetActive (false);
 		serverListPanel.SetActive (true);
+	}
+
+	public void StartGameButton_Click()
+	{
+		Application.LoadLevel ("Main");
 	}
 }
