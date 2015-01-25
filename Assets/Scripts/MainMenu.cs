@@ -60,7 +60,6 @@ public class MainMenu : MonoBehaviour {
 	{
 		createJoinPanel.SetActive (false);
 		serverListPanel.SetActive (true);
-		serverButton.SetActive (true);
 		networkManager.RefreshHostList ();
 	}
 	
@@ -118,9 +117,11 @@ public class MainMenu : MonoBehaviour {
 
 			for (int i = 0; i < hostList.Length; i++)
 			{
+				serverButton.SetActive (true);
 				serverButton.GetComponentInChildren<Text>().text = hostList[i].gameName;
+				int hostIndex = i;
 				serverButton.GetComponent<Button>().onClick.AddListener (() => {
-					networkManager.JoinServer(hostList[i]);
+					networkManager.JoinServer(hostList[hostIndex]);
 				});
 			}
 		}
