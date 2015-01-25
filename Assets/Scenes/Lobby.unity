@@ -83,6 +83,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 104555088}
   - 114: {fileID: 104555087}
+  - 114: {fileID: 104555089}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -101,7 +102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb7fe038c8ddab40928760c248c6237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 131418, guid: 987dec538e294e647ac80a8793604020, type: 2}
 --- !u!4 &104555088
 Transform:
   m_ObjectHideFlags: 0
@@ -114,6 +114,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &104555089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 104555086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 942a0e954dde641ec9a4b6de4d834d30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 131418, guid: 987dec538e294e647ac80a8793604020, type: 2}
 --- !u!1 &180921922
 GameObject:
   m_ObjectHideFlags: 0
