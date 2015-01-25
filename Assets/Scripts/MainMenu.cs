@@ -116,22 +116,19 @@ public class MainMenu : MonoBehaviour {
 	// Only called by server
 	void TriggerUpdateConnectedPlayers() 
 	{
-		if (Network.isServer) 
+		bool serverOnConnectionList = false;
+		foreach (NetworkPlayer conn in Network.connections) 
 		{
-			bool serverOnConnectionList = false;
-			foreach (NetworkPlayer conn in Network.connections) 
+			if (conn.guid == Network.player.guid) 
 			{
-				if (conn.guid == Network.player.guid) 
-				{
-					serverOnConnectionList = true;
-					break;
-				}
+				serverOnConnectionList = true;
+				break;
 			}
-
-			int playersConnected = serverOnConnectionList ? Network.connections.Length : Network.connections.Length + 1;
-			UpdateConnectedPlayers(playersConnected);
-			networkView.RPC("UpdatePlayers", RPCMode.Server, playersConnected);
 		}
+
+		int playersConnected = serverOnConnectionList ? Network.connections.Length : Network.connections.Length + 1;
+		UpdateConnectedPlayers(playersConnected);
+		networkView.RPC("UpdatePlayers", RPCMode.Server, playersConnected);
 	}
 
 	[RPC]
