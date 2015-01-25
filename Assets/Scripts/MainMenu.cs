@@ -248,6 +248,9 @@ public class MainMenu : MonoBehaviour {
 		if (connectedPlayers == 3) 
 		{
 			startGameButton.SetActive(true);
+		} else 
+		{
+			startGameButton.SetActive(false);
 		}
 	}
 
