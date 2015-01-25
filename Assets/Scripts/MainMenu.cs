@@ -11,6 +11,8 @@ public class MainMenu : MonoBehaviour {
 	private GameObject startGameButton;
 	private NetworkManager networkManager;
 
+	private int playersConnected;
+
 	// Use this for initialization
 	void Start () {
 		// Keep references to what can be changed
@@ -38,17 +40,18 @@ public class MainMenu : MonoBehaviour {
 	
 	}
 
+	/* *
+	 * Event Handlers
+	 * 
+	 * */
+
 	public void CreateGameButton_Click()
 	{
 		createJoinPanel.SetActive (false);
 		networkManager.StartServer (Network.player.externalIP);
 		waitingForPlayersPanel.SetActive (true);
+		networkManager.RefreshHostList ();
 		GameObject.Find ("ServerAddressLabel").GetComponentInChildren<Text>().text = Network.player.externalIP;
-	}
-
-	void OnConnectedToServer()
-	{
-		Debug.Log("Server Joined");
 	}
 
 	public void JoinGameButton_Click()
@@ -56,9 +59,52 @@ public class MainMenu : MonoBehaviour {
 		createJoinPanel.SetActive (false);
 		serverListPanel.SetActive (true);
 	}
-
+	
 	public void StartGameButton_Click()
 	{
 		Application.LoadLevel ("Main");
+	}
+
+	/* *
+	 * Network Events
+	 * 
+	 * */
+
+	void OnConnectedToServer()
+	{
+		Debug.Log("Server Joined");
+	}
+
+	void OnPlayerConnected(NetworkPlayer player) 
+	{
+		string controlToUpdate = null;
+
+		if (playersConnected == 0) {
+			controlToUpdate = "Player1StatusLabel";
+		} else if (playersConnected == 1) {
+			controlToUpdate = "Player2StatusLabel";
+		} else if (playersConnected == 2) {
+			controlToUpdate = "Player3StatusLabel";
+		} else {
+			return;
+		}
+		playersConnected++;
+
+		GameObject.Find (controlToUpdate).GetComponentInChildren<Text>().text = "OK";
+		GameObject.Find (controlToUpdate).GetComponentInChildren<Text>().color = Color.green;
+	}
+
+	void OnMasterServerEvent(MasterServerEvent msEvent)
+	{
+		if (msEvent == MasterServerEvent.HostListReceived)
+		{
+			HostData[] hostList = MasterServer.PollHostList();
+
+			for (int i = 0; i < hostList.Length; i++)
+			{
+				if (GUI.Button(new Rect(400, 100 + (60 * i), 150, 50), hostList[i].gameName))
+					networkManager.JoinServer(hostList[i]);
+			}
+		}
 	}
 }
