@@ -25,12 +25,6 @@ public class NetworkManager : MonoBehaviour {
 		DontDestroyOnLoad (this);
 	}
 
-    void OnServerInitialized()
-    {
-        Debug.Log("Server Initializied. Connection count = " + Network.connections.Length);
-		//SpawnPlayer();
-    }
-
     private void SpawnPlayer()
     {
         GameObject player = (GameObject) Network.Instantiate(playerPrefab, new Vector2(0f, 0f), Quaternion.identity, 0);
@@ -41,23 +35,7 @@ public class NetworkManager : MonoBehaviour {
         Debug.Log("Server Joined");
     }
 
-	void OnDisconnectedFromServer(NetworkDisconnection info) {
-		if (Network.isServer)
-        {
-            Debug.Log("DISCONNECTED: Local server connection disconnected");
-        }
-		else
-        {
-			if (info == NetworkDisconnection.LostConnection)
-            {
-				Debug.Log ("DISCONNECTED: Lost connection to the server");
-            } 
-            else 
-            {
-				Debug.Log ("DISCONNECTED: Successfully diconnected from the server");
-            }
-		}
-	}
+
 
     void OnPlayerDisconnected(NetworkPlayer player) {
         //Debug.Log("Clean up after player " + player);

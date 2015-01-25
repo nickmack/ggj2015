@@ -13,6 +13,8 @@ public class MainMenu : MonoBehaviour {
 	private HostData[] host;
 	private NetworkManager networkManager;
 
+	private int playerCount;
+
 	// Use this for initialization
 	void Start () {
 		// Keep references to what can be changed
@@ -45,28 +47,59 @@ public class MainMenu : MonoBehaviour {
 			if (waitingForPlayersPanel.activeSelf) 
 			{
 				DisconnectFromGame();
-				waitingForPlayersPanel.SetActive(false);
-				createJoinPanel.SetActive(true);
+				InitCreateJoinPanel();
 			} else if (serverListPanel.activeSelf) 
 			{
-				serverListPanel.SetActive(false);
-				createJoinPanel.SetActive(true);
+				InitCreateJoinPanel();
 			}
 		}
 	}
 
-	void DisconnectFromGame() 
+	/* *
+	 * Screen changes
+	 * 
+	 * */
+
+	void InitCreateJoinPanel()
 	{
-		if (Network.isServer) 
-		{
-			Debug.Log("Ranayana eu te amo");
-			Network.Disconnect ();
-			MasterServer.UnregisterHost ();
-		} else 
-		{
-			Network.Disconnect ();
-		}
+		waitingForPlayersPanel.SetActive(false);
+		serverListPanel.SetActive(false);
+		createJoinPanel.SetActive(true);
+    }
+
+	void InitWaitingForPlayersPanel() 
+	{
+		serverListPanel.SetActive (false);
+		createJoinPanel.SetActive(false);
+		waitingForPlayersPanel.SetActive (true);
+		GameObject.Find ("ServerAddressLabel").GetComponent<Text>().text = Network.player.ipAddress;
+		GameObject.Find ("YourGameLabel").GetComponent<Text>().text = Network.isServer ? "Your game:" : "Server:";
+		TriggerUpdateConnectedPlayers ();
 	}
+
+	void InitServerListPanel()
+	{
+		waitingForPlayersPanel.SetActive (false);
+		createJoinPanel.SetActive(false);
+		serverListPanel.SetActive (true);
+		ResetServerButton ();
+    }
+
+	void ResetServerButton()
+	{
+		Debug.Log (serverButton);
+		serverButton.SetActive (true);
+		serverButton.GetComponentInChildren<Text>().text = "";
+		serverButton.GetComponent<Button> ().onClick.RemoveAllListeners ();
+		serverButton.SetActive (false);
+    }
+
+	void EnableServerButon(HostData host)
+	{
+		serverButton.SetActive (true);
+		serverButton.GetComponentInChildren<Text>().text = host.gameName; // Just the first host
+		serverButton.GetComponent<Button>().onClick.AddListener (() => ServerButton_Click(host));
+    }
 
 	/* *
 	 * Event Handlers
@@ -75,25 +108,28 @@ public class MainMenu : MonoBehaviour {
 
 	public void CreateGameButton_Click()
 	{
-		createJoinPanel.SetActive (false);
-		networkManager.StartServer (Network.player.externalIP);
-		waitingForPlayersPanel.SetActive (true);
-		GameObject.Find ("ServerAddressLabel").GetComponentInChildren<Text>().text = Network.player.ipAddress;
+		networkManager.StartServer (Network.player.ipAddress);
+		InitWaitingForPlayersPanel ();
 	}
 
 	public void JoinGameButton_Click()
 	{
-		createJoinPanel.SetActive (false);
-		serverListPanel.SetActive (true);
+		InitServerListPanel();
 		networkManager.RefreshHostList ();
-	}
+    }
 	
 	public void StartGameButton_Click()
 	{
 		Application.LoadLevel ("Main");
 	}
 
-	/* *
+	public void ServerButton_Click(HostData host)
+	{
+		networkManager.JoinServer(host);
+		InitWaitingForPlayersPanel ();
+    }
+    
+    /* *
 	 * Network Events
 	 * 
 	 * */
@@ -105,32 +141,82 @@ public class MainMenu : MonoBehaviour {
 
 	void OnPlayerConnected(NetworkPlayer player) 
 	{
-		Debug.Log ("Player conneceted. Count:" + Network.connections.Length);
 		Debug.Log ("Player connected. IP: " + player.ipAddress);
-		if (Network.isServer) 
+		playerCount++;
+		TriggerUpdateConnectedPlayers();
+	}
+
+	void OnMasterServerEvent(MasterServerEvent msEvent)
+	{
+		if (msEvent == MasterServerEvent.HostListReceived && serverListPanel.activeSelf)
+		{
+			HostData[] hostList = MasterServer.PollHostList();
+			Debug.Log ("Received Host List. Number of hosts: " + hostList.Length);
+			if (hostList.Length > 0)
+			{
+				EnableServerButon(hostList[0]); // Just the first one
+			} else
+			{
+				networkManager.RefreshHostList();
+			}
+		}
+	}
+	
+	void OnPlayerDisconnected(NetworkPlayer player) 
+	{
+		Debug.Log ("OnPlayerDisconnected. IP: " + player.ipAddress);
+		Network.CloseConnection (Network.connections [0], false);
+		Network.RemoveRPCs (player);
+		playerCount--;
+		Debug.Log ("First connection: " + Network.connections[0].ipAddress);
+		if (waitingForPlayersPanel.activeSelf)
 		{
 			TriggerUpdateConnectedPlayers();
 		}
 	}
+	
+	void OnDisconnectedFromServer(NetworkDisconnection info) {
+		if (Network.isServer)
+		{
+			Debug.Log("DISCONNECTED: Local server connection disconnected");
+		}
+		else
+		{
+			if (info == NetworkDisconnection.LostConnection)
+			{
+				Debug.Log ("DISCONNECTED: Lost connection to the server");
+			} 
+			else 
+			{
+				Debug.Log ("DISCONNECTED: Successfully diconnected from the server");
+            }
+        }
+        
+        waitingForPlayersPanel.SetActive (false);
+        serverListPanel.SetActive (false);
+        createJoinPanel.SetActive (true);
+    }
+    
+    void OnServerInitialized()
+    {
+        Debug.Log("Server Initializied. Connection count = " + Network.connections.Length);
+		playerCount++; //The host
+        //SpawnPlayer();
+    }
 
-	// Only called by server
+
+	/* *
+	 * Methods
+	 * 
+	 * */
+    
+    // Only called by server
 	void TriggerUpdateConnectedPlayers() 
 	{
 		if (Network.isServer) 
 		{
-			bool serverOnConnectionList = false;
-			foreach (NetworkPlayer conn in Network.connections) 
-			{
-				if (conn.guid == Network.player.guid) 
-				{
-					serverOnConnectionList = true;
-					break;
-				}
-			}
-
-			int playersConnected = serverOnConnectionList ? Network.connections.Length : Network.connections.Length + 1;
-			UpdateConnectedPlayers(playersConnected);
-			networkView.RPC("UpdatePlayers", RPCMode.Server, playersConnected);
+			UpdateConnectedPlayers(playerCount);
+			networkView.RPC("UpdatePlayers", RPCMode.Server, playerCount);
 		}
 	}
 
@@ -145,42 +231,33 @@ public class MainMenu : MonoBehaviour {
 
 	void UpdateConnectedPlayers(int connectedPlayers)
 	{
-		for (int i = 1; i <= connectedPlayers; i++)
+		for (int i = 1; i <= 3; i++)
 		{
-			GameObject.Find ("Player" + i + "StatusLabel").GetComponent<Text>().text = "OK";
-			GameObject.Find ("Player" + i + "StatusLabel").GetComponent<Text>().color = Color.green;
-		}
-	}
+			Text playerText = GameObject.Find ("Player" + i + "StatusLabel").GetComponent<Text>();
 
-	void OnMasterServerEvent(MasterServerEvent msEvent)
-	{
-		if (msEvent == MasterServerEvent.HostListReceived)
-		{
-			Debug.Log ("Received Host List");
-			HostData[] hostList = MasterServer.PollHostList();
-			Debug.Log("Number of hosts: " + hostList.Length);
-
-			for (int i = 0; i < hostList.Length; i++)
+			if (i <= connectedPlayers)
 			{
-				serverButton.SetActive (true);
-				serverButton.GetComponentInChildren<Text>().text = hostList[i].gameName;
-				int hostIndex = i;
-				serverButton.GetComponent<Button>().onClick.AddListener (() => {
-					networkManager.JoinServer(hostList[hostIndex]);
-					serverListPanel.SetActive(false);
-					waitingForPlayersPanel.SetActive(true);
-				});
+				playerText.text = "OK";
+				playerText.color = Color.green;
+			} else
+			{
+				playerText.text = "Waiting...";
+				playerText.color = Color.black;
 			}
 		}
 	}
 
-	void OnPlayerDisconnected(NetworkPlayer player) 
+	void DisconnectFromGame() 
 	{
-		Debug.Log ("OnPlayerDisconneted. IP: " + player.ipAddress);
-		Network.CloseConnection (Network.connections [0], false);
-		Network.DestroyPlayerObjects (player);
-		Network.RemoveRPCs (player);
-		Debug.Log ("First connection: " + Network.connections[0].ipAddress);
-		TriggerUpdateConnectedPlayers();
-	}
+		if (Network.isServer) 
+		{
+			Debug.Log("Ranayana eu te amo");
+			Network.Disconnect ();
+			MasterServer.UnregisterHost ();
+		} else 
+        {
+            Network.Disconnect ();
+        }
+    }
+
 }
