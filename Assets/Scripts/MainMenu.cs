@@ -11,8 +11,6 @@ public class MainMenu : MonoBehaviour {
 	private GameObject startGameButton;
 	private NetworkManager networkManager;
 
-	private int playersConnected;
-
 	// Use this for initialization
 	void Start () {
 		// Keep references to what can be changed
@@ -77,21 +75,30 @@ public class MainMenu : MonoBehaviour {
 
 	void OnPlayerConnected(NetworkPlayer player) 
 	{
-		string controlToUpdate = null;
+		int playersConnected = Network.connections.Length + 1;
 
-		if (playersConnected == 0) {
-			controlToUpdate = "Player1StatusLabel";
-		} else if (playersConnected == 1) {
-			controlToUpdate = "Player2StatusLabel";
-		} else if (playersConnected == 2) {
-			controlToUpdate = "Player3StatusLabel";
-		} else {
-			return;
+		if (Network.isServer) 
+		{
+			networkView.RPC("UpdatePlayers", RPCMode.Server, playersConnected);
+			UpdateConnectedPlayers(Network.connections.Length);
 		}
-		playersConnected++;
+	}
 
-		GameObject.Find (controlToUpdate).GetComponentInChildren<Text>().text = "OK";
-		GameObject.Find (controlToUpdate).GetComponentInChildren<Text>().color = Color.green;
+	void UpdatePlayers(int playersConnected) 
+	{
+		if (Network.isClient) 
+		{
+			UpdateConnectedPlayers (playersConnected);
+		}
+	}
+
+	void UpdateConnectedPlayers(int connectedPlayers)
+	{
+		for (int i = 1; i <= connectedPlayers; i++)
+		{
+			GameObject.Find ("Player" + i + "StatusLabel").GetComponentInChildren<Text>().text = "OK";
+			GameObject.Find ("Player" + i + "StatusLabel").GetComponentInChildren<Text>().color = Color.green;
+		}
 	}
 
 	void OnMasterServerEvent(MasterServerEvent msEvent)
