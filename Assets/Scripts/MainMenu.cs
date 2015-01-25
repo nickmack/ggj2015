@@ -38,6 +38,7 @@ public class MainMenu : MonoBehaviour {
 		waitingForPlayersPanel.SetActive (false);
 		serverListPanel.SetActive (false);
 		serverButton.SetActive (false);
+		startGameButton.SetActive (false);
 	}
 	
 	// Update is called once per frame
@@ -241,6 +242,11 @@ public class MainMenu : MonoBehaviour {
 				playerText.text = "Waiting...";
 				playerText.color = Color.black;
 			}
+		}
+
+		if (connectedPlayers == 3) 
+		{
+			startGameButton.SetActive(true);
 		}
 	}
 
