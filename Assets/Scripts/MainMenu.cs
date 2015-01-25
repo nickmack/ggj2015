@@ -73,6 +73,7 @@ public class MainMenu : MonoBehaviour {
 		serverListPanel.SetActive (false);
 		createJoinPanel.SetActive(false);
 		waitingForPlayersPanel.SetActive (true);
+		startGameButton.SetActive (false);
 		GameObject.Find ("ServerAddressLabel").GetComponent<Text>().text = Network.player.ipAddress;
 		GameObject.Find ("YourGameLabel").GetComponent<Text>().text = Network.isServer ? "Your game:" : "Server:";
 		TriggerUpdateConnectedPlayers ();
