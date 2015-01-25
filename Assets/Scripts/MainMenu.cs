@@ -85,8 +85,8 @@ public class MainMenu : MonoBehaviour {
 		Debug.Log ("Player connected. Total: " + playersConnected);
 		if (Network.isServer) 
 		{
-			networkView.RPC("UpdatePlayers", RPCMode.Server, playersConnected);
 			UpdateConnectedPlayers(Network.connections.Length);
+			networkView.RPC("UpdatePlayers", RPCMode.Server, playersConnected);
 		}
 	}
 
@@ -103,8 +103,8 @@ public class MainMenu : MonoBehaviour {
 	{
 		for (int i = 1; i <= connectedPlayers; i++)
 		{
-			GameObject.Find ("Player" + i + "StatusLabel").GetComponentInChildren<Text>().text = "OK";
-			GameObject.Find ("Player" + i + "StatusLabel").GetComponentInChildren<Text>().color = Color.green;
+			GameObject.Find ("Player" + i + "StatusLabel").GetComponent<Text>().text = "OK";
+			GameObject.Find ("Player" + i + "StatusLabel").GetComponent<Text>().color = Color.green;
 		}
 	}
 
