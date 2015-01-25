@@ -6,6 +6,7 @@ public class RoomGenerator : MonoBehaviour
     public Transform wall;
     public Transform player;
     public Transform enemy;
+    public bool createWall;
 
     void Start()
     {
@@ -28,7 +29,7 @@ public class RoomGenerator : MonoBehaviour
             {
                 char currentChar = lines[i][j];
 
-                if (currentChar == 'w')
+                if (currentChar == 'w' && createWall)
                 {
                     Instantiate(wall, new Vector3(startX + (lines[i].Length - j - 1) * wallSize.x, 0, startY + (lines.Length - i - 1) * wallSize.y), Quaternion.identity);
                 }
