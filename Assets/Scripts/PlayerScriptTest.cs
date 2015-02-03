@@ -17,7 +17,7 @@ public class PlayerScriptTest : MonoBehaviour
     {
         float inputX = 0;
         float inputZ = 0;
-        float rotation = transform.rotation.y;
+        float rotation = transform.eulerAngles.y;
 
         
         // 4 - Movement per direction
@@ -36,31 +36,31 @@ public class PlayerScriptTest : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             inputX = 1;
-            rotation = 270;
+            rotation = 90;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
             inputX = -1;
-            rotation = 90;
+            rotation = 270;
         }
 
 
         movement = new Vector3(
             speed.x * inputX,
             0, speed.z * inputZ);
-        transform.rotation = Quaternion.Euler(90, 0, rotation);
+        transform.rotation = Quaternion.Euler(90, rotation, 0);
 
 
 		anim = gameObject.GetComponentInChildren<Animator> ();
-        if (movement.x != 0 || movement.z != 0)
-        {
-            anim.SetBool("isWalking", true);
-        }
-        else
-        {
-            anim.SetBool("isWalking", false);
-        }
+        //if (movement.x != 0 || movement.z != 0)
+        //{
+        //    anim.SetBool("isWalking", true);
+        //}
+        //else
+        //{
+        //    anim.SetBool("isWalking", false);
+        //}
     }
 
     void FixedUpdate()
