@@ -52,7 +52,7 @@ public class PlayerScriptTest : MonoBehaviour
         transform.rotation = Quaternion.Euler(90, 0, rotation);
 
 
-        anim = GetComponent<Animator>();
+		anim = gameObject.GetComponentInChildren<Animator> ();
         if (movement.x != 0 || movement.z != 0)
         {
             anim.SetBool("isWalking", true);

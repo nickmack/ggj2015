@@ -1,11 +1,12 @@
-﻿﻿using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class RoomGenerator : MonoBehaviour
 {
     public Transform wall;
     public Transform player;
-    public Transform enemy;
+    public Transform blockedSpace;
+	public Transform door;
     public bool createWall;
 
     void Start()
@@ -15,10 +16,16 @@ public class RoomGenerator : MonoBehaviour
 
     void createRoom(int startX, int startY)
     {
+
+		if (!createWall)
+		{
+			return;
+		}
         string[] lines = System.IO.File.ReadAllLines(@"Assets\Maps\Map1.txt");
         Vector3 wallSize = wall.renderer.bounds.size;
         Vector3 playerSize = wall.renderer.bounds.size;
-        Vector3 enemySize = wall.renderer.bounds.size;
+		Vector3 doorSize = wall.renderer.bounds.size;
+		Vector3 blockedSpaceSize = wall.renderer.bounds.size;
 
         //GameObject player = null;
         //GameObject enemy = null;
@@ -29,7 +36,7 @@ public class RoomGenerator : MonoBehaviour
             {
                 char currentChar = lines[i][j];
 
-                if (currentChar == 'w' && createWall)
+                if (currentChar == 'w')
                 {
                     Instantiate(wall, new Vector3(startX + (lines[i].Length - j - 1) * wallSize.x, 0, startY + (lines.Length - i - 1) * wallSize.y), Quaternion.identity);
                 }
@@ -38,9 +45,13 @@ public class RoomGenerator : MonoBehaviour
                     Transform playerObj = (Transform)Instantiate(player, new Vector3(startX + (lines[i].Length - j - 1) * playerSize.x, 0, startY + (lines.Length - i - 1) * playerSize.y), Quaternion.identity);
                     playerObj.tag = "Player";
                 }
-                else if (currentChar == 'm')
+				else if (currentChar == 'd')
+				{
+					Transform playerObj = (Transform)Instantiate(door, new Vector3(startX + (lines[i].Length - j - 1) * doorSize.x, 0, startY + (lines.Length - i - 1) * doorSize.y), Quaternion.identity);
+									}
+                else if (currentChar == 'r')
                 {
-                    Instantiate(enemy, new Vector3(startX + (lines[i].Length - j - 1) * enemySize.x, 0, startY + (lines.Length - i - 1) * enemySize.y), Quaternion.identity);
+					Instantiate(blockedSpace, new Vector3(startX + (lines[i].Length - j - 1) * blockedSpaceSize.x, 0, startY + (lines.Length - i - 1) * blockedSpaceSize.y), Quaternion.identity);
                 }
             }
         }
