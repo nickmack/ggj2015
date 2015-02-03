@@ -122,7 +122,7 @@ public class MainMenu : MonoBehaviour {
 	
 	public void StartGameButton_Click()
 	{
-		networkView.RPC( "LoadLevel", RPCMode.AllBuffered);
+		networkView.RPC( "LoadLevel", RPCMode.Others);
 		Application.LoadLevel ("Main");
 	}
 

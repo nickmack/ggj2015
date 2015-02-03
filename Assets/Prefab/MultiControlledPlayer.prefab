@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11442294}
   - 148: {fileID: 14862806}
   m_Layer: 0
-  m_Name: SquarePref
+  m_Name: MultiControlledPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,8 +90,8 @@ NetworkView:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 131418}
   m_Enabled: 1
-  m_StateSynchronization: 1
-  m_Observed: {fileID: 11400000}
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 0}
   m_ViewID:
     m_ID: 0
     m_Type: 0

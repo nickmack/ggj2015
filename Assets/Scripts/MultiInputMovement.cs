@@ -30,12 +30,12 @@ public class MultiInputMovement : MonoBehaviour {
 	}
 
 	[RPC]
-	void SendMovementInput(NetworkPlayer player, int input)
+	public void SendMovementInput(NetworkPlayer player, int input)
 	{ 
 		if (Network.isServer) {
 			InputAction inputAction = (InputAction)input;
-			Debug.Log ("Player " + player.ToString () + " move: " + inputAction);
-			lastInput [int.Parse (player.ToString ()) -1] = inputAction;
+			Debug.Log ("Received movement intention from player " + player.ToString() + ": " + inputAction);
+			lastInput [int.Parse (player.ToString ())] = inputAction;
 		}
 	}
 
