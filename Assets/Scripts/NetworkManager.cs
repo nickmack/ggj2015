@@ -14,21 +14,12 @@ public class NetworkManager : MonoBehaviour {
 
     #endregion
 
-    #region Public attributes
-
-    public GameObject playerPrefab;
-
-    #endregion
-
 	void Awake() 
 	{
 		DontDestroyOnLoad (this);
 	}
 
-    private void SpawnPlayer()
-    {
-        GameObject player = (GameObject) Network.Instantiate(playerPrefab, new Vector2(0f, 0f), Quaternion.identity, 0);
-    }
+    
 
     void OnConnectedToServer()
     {

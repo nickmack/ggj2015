@@ -122,6 +122,7 @@ public class MainMenu : MonoBehaviour {
 	
 	public void StartGameButton_Click()
 	{
+		networkView.RPC( "LoadLevel", RPCMode.AllBuffered);
 		Application.LoadLevel ("Main");
 	}
 
@@ -215,8 +216,11 @@ public class MainMenu : MonoBehaviour {
     // Only called by server
 	void TriggerUpdateConnectedPlayers() 
 	{
-        UpdateConnectedPlayers(playerCount);
-        networkView.RPC("UpdatePlayers", RPCMode.Server, playerCount);
+		if (Network.isServer)
+		{
+        	UpdateConnectedPlayers(playerCount);
+        	networkView.RPC("UpdatePlayers", RPCMode.Server, playerCount);
+		}
     }
     
 	[RPC]
@@ -226,6 +230,12 @@ public class MainMenu : MonoBehaviour {
 		{
 			UpdateConnectedPlayers (playersConnected);
 		}
+	}
+
+	[RPC]
+	void LoadLevel()
+	{
+		Application.LoadLevel ("Main");
 	}
 
 	void UpdateConnectedPlayers(int connectedPlayers)
@@ -245,9 +255,12 @@ public class MainMenu : MonoBehaviour {
 			}
 		}
 
-		if (connectedPlayers == 3) 
+		if (connectedPlayers == 3 && Network.isServer) 
 		{
 			startGameButton.SetActive(true);
+		} else 
+		{
+			startGameButton.SetActive(false);
 		}
 	}
 
